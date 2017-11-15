@@ -1,0 +1,801 @@
+swagger: '2.0'
+info:
+  description: |-
+    We anticipate our API will be used by the following people:
+      - Developers to build apps used by BuildingOS customers
+      - Customes who want access to their own data
+      - Students who are part of school energy competitions
+  version: 1.0.0
+  title: BuildingOS API
+  termsOfService: 'https://lucidconnects.com/terms/terms-developer'
+  contact:
+    email: support@luciddg.com
+host: api.buildingos.com
+tags:
+- name: auth
+  description: Authentication
+- name: ROOT
+  description: API Endpoints
+- name: buildings
+  description: Buildings
+- name: users
+  description: Users
+- name: organizations
+  description: Organizations
+- name: meters
+  description: Meters
+- name: notifications
+  description: Notfications
+schemes:
+  - https
+paths:
+  /o/token:
+    post:
+      tags:
+        - auth
+      summary: Authenticate with the BuildingOS API
+      parameters:
+        - name: client_id
+          in: query
+          description: client id provided by BuildingOS
+          required: true
+          type: string
+        - name: client_secret
+          in: query
+          description: client secret provided by BuildingOS
+          required: true
+          type: string
+        - name: grant_type
+          in: query
+          description: \'password\' is the only supported option as of now
+          required: true
+          type: string
+        - name: username
+          in: query
+          description: BuildingOS username
+          required: true
+          type: string
+        - name: password
+          in: query
+          description: BuildingOS password
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Authentication response
+          schema:
+            title: Authenticate
+            $ref: '#/definitions/Auth'
+  /:
+    get:
+      tags:
+        - ROOT
+      summary: List all available API endpoint URLs
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of available API Endpoints
+          schema:
+            type: object
+            title: Endpoints
+            properties:
+              data:
+                type: object
+                properties:
+                  buildings:
+                    type: string
+                  users:
+                    type: string
+                  notifications:
+                    type: string
+                  meters:
+                    type: string
+                  me:
+                    type: string
+                  organizations:
+                    type: string
+                  organizationsUrl:
+                    type: string
+                  reports:
+                    type: string
+                  budgets:
+                    type: string
+                  definitions:
+                    type: string
+                  utilityAccounts:
+                    type: string
+  /buildings:
+    get:
+      tags:
+        - buildings
+      summary: List buildings that the current user has access to view/read
+      description: Use parameters to filter results and pagination to navigate.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of buildings
+          schema:
+            type: object
+            title: Buildings
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      buildingType:
+                        type: string
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Building'
+  /buildings/{id}:
+    get:
+      tags:
+        - buildings
+      summary: Get a single building object
+      description: Use building id as a url parameter.
+      parameters:
+        - name: id
+          in: path
+          description: id of building to return
+          required: true
+          type: integer
+          format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns a single building object
+          schema:
+            type: object
+            title: Building
+            properties:
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      buildingType:
+                        type: string
+              data:
+                $ref: '#/definitions/Building'
+  /me:
+    get:
+      tags:
+        - users
+      summary: Get details on the current user
+      description: Current user information
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns the current user
+          schema:
+            type: object
+            title: Current User
+            properties:
+              data:
+                $ref: '#/definitions/User'
+  /users:
+    get:
+      tags:
+        - users
+      summary: List users who have accounts under an organization
+      description: Use parameters to filter results and pagination to navigate.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of users
+          schema:
+            type: object
+            title: Users
+            properties:
+              totalCount:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/User'
+              links:
+                type: object
+                properties:
+                  previous:
+                    type: string
+                  next:
+                    type: string
+  '/users/{id}':
+    get:
+      tags:
+        - users
+      summary: Get a single user
+      description: Use user id as a url parameter.
+      parameters:
+        - name: id
+          in: path
+          description: id of user to return
+          required: true
+          type: integer
+          format: int64
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns a single user
+          schema:
+            type: object
+            title: User
+            properties:
+              data:
+                $ref: '#/definitions/User'
+  /organizations:
+    get:
+      tags:
+        - organizations
+      summary: List all organizations associated with the current user
+      description: >-
+        A user can belong to one or many organizations (usually just their
+        primary organization and the demo organization). This is a collection of
+        all the organizations for which the current user has access.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of organizations
+          schema:
+            type: object
+            title: Organizations
+            properties:
+              totalCount:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Organization'
+              links:
+                type: object
+                properties:
+                  previous:
+                    type: string
+                  next:
+                    type: string
+  '/organizations/{id}':
+    get:
+      tags:
+        - organizations
+      summary: Get a single organization
+      description: Use organization id as a url parameter.
+      parameters:
+        - name: id
+          in: path
+          description: id of organization to return
+          required: true
+          type: integer
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns a single organization
+          schema:
+            type: object
+            title: Organization
+            properties:
+              data:
+                $ref: '#/definitions/User'
+  /meters:
+    get:
+      tags:
+        - meters
+      summary: List meters accessible by the current user
+      description: Use parameters to filter results and pagination to navigate.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: A list of meters
+          schema:
+            type: object
+            title: Meters
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      defaultTimescale:
+                        type: string
+                      displayUnit:
+                        type: string
+                      sourceUnit:
+                        type: string
+                      resourceType:
+                        type: string
+                      flatlineThreshold:
+                        type: string
+                      scope:
+                        type: string
+                      readingType:
+                        type: string
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Meter'
+              links:
+                type: object
+                properties:
+                  previous:
+                    type: string
+                  next:
+                    type: string
+  '/meters/{uuid}':
+    get:
+      tags:
+        - meters
+      summary: Get a single meter
+      description: Use meter uuid as a url parameter.
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid of meter to return
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns a single meter
+          schema:
+            type: object
+            title: Meter
+            properties:
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      defaultTimescale:
+                        type: string
+                      displayUnit:
+                        type: string
+                      sourceUnit:
+                        type: string
+                      resourceType:
+                        type: string
+                      flatlineThreshold:
+                        type: string
+                      scope:
+                        type: string
+                      readingType:
+                        type: string
+              data:
+                $ref: '#/definitions/Meter'
+  /meters/{uuid}/data:
+    get:
+      tags:
+        - meters
+      summary: Get timestamped meter data values
+      description: Use the meter uuid to return the timestamped data values.
+      parameters:
+        - name: uuid
+          in: path
+          description: uuid of meter to return
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns a single meters timestamped data values
+          schema:
+            title: Meter Data
+            $ref: '#/definitions/MeterData'
+  /notifications:
+    get:
+      tags:
+        - notifications
+      summary: Get the list of notifications the user has access to.
+      description: Use parameters to filter results and pagination to navigate.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Returns a list of notifications
+          schema:
+            type: object
+            title: Notifications
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      verb:
+                        type: string
+                        format: url
+              data:
+                $ref: '#/definitions/Notification'
+definitions:
+  Auth:
+    type: object
+    title: Authentication
+    properties:
+      access_token:
+        type: string
+      token_type:
+        type: string
+      expires_in:
+        type: integer
+      refresh_token:
+        type: string
+      scope:
+        type: string
+  Building:
+    type: object
+    title: Building
+    properties:
+      id:
+        type: string
+      uuid:
+        type: string
+      organization:
+        type: string
+      vendorBuildingId:
+        type: string
+      object:
+        type: string
+      name:
+        type: string
+      shortName:
+        type: string
+      description:
+        type: string
+      address:
+        type: string
+      postalCode:
+        type: integer
+      countryCode:
+        type: string
+      area:
+        type: number
+      occupancy:
+        type: string
+      occupiedArea:
+        type: string
+      percentVacancy:
+        type: string
+      updatedAt:
+        type: string
+      image:
+        type: string
+      longitude:
+        type: number
+      latitude:
+        type: number
+      url:
+        type: string
+      data:
+        type: string
+      buildingType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      buildingGroups:
+        type: object
+        properties:
+          userDefined1:
+            type: string
+          userDefined2:
+            type: string
+      location:
+        type: object
+        properties:
+          lat:
+            type: number
+          lon:
+            type: number
+      areaUnit:
+        type: object
+        properties:
+          id:
+            type: integer
+          displayName:
+            type: string
+          shortName:
+            type: string
+      meters:
+        type: array
+        items:
+          properties:
+            displayName:
+              type: string
+            name:
+              type: string
+            url:
+              type: string
+      utilityAccounts:
+        type: array
+        items:
+          properties:
+            displayName:
+              type: string
+            name:
+              type: string
+            url:
+              type: string
+  User:
+    type: object
+    title: User
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      jobFunction:
+        type: string
+      organizations:
+        type: array
+        items:
+          type: string
+      url:
+        type: string
+      avatar:
+        type: string
+      createdAt:
+        type: string
+      lastLoginAt:
+        type: string
+  Organization:
+    type: object
+    title: Organization
+    properties:
+      id:
+        type: string
+      object:
+        type: string
+      url:
+        type: string
+      name:
+        type: string
+      shortName:
+        type: string
+      data:
+        type: string
+      updatedAt:
+        type: string
+        format: date-time
+      image:
+        type: string
+        format: uri
+      settings:
+        type: string
+        format: uri
+      areaUnit:
+        type: object
+        properties:
+          id:
+            type: integer
+          displayName:
+            type: string
+          shortName:
+            type: string
+      buildings:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            displayName:
+              type: string
+            url:
+              type: string
+  Meter:
+    type: object
+    title: Meter
+    properties:
+      id:
+        type: integer
+      uuid:
+        type: string
+      url:
+        type: string
+      name:
+        type: string
+      displayName:
+        type: string
+      vendorMeterId:
+        type: string
+      building:
+        type: string
+      firstReadingAt:
+        type: string
+        format: date-time
+      lastestReadingAt:
+        type: string
+        format: date-time
+      data:
+        type: string
+      scope:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      status:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: string
+      resourceType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      readingType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      sourceUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      storageUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      displayUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      defaultTimestamp:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      integration:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      gateway:
+        type: object
+        properties:
+          uri:
+            type: string
+          url:
+            type: string
+      flatlineThreshold:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      currentRate:
+        type: object
+        properties:
+          value:
+            type: number
+  MeterData:
+    type: object
+    title: MeterData
+    properties:
+      meta:
+        type: object
+        properties:
+          units:
+            type: object
+            properties:
+              value:
+                type: object
+                properties:
+                  displayName:
+                    type: string
+                  id:
+                    type: integer
+                  shortName:
+                    type: string
+          definitions:
+            type: object
+            properties:
+              unitsCost:
+                type: string
+              resolution:
+                type: string
+              unitsValue:
+                type: string
+          resolution:
+            type: object
+            properties:
+              displayName:
+                type: string
+              slug:
+                type: string
+              id:
+                type: integer
+      data:
+        type: array
+        items:
+          properties:
+            value:
+              type: number
+            localtime:
+              type: string
+              format: date-time
+  Notification:
+    type: object
+    title: Notification
+    properties:
+      verb:
+        type: string
+      occurredAt:
+        type: string
+        format: date-time
+      recoveredAt:
+        type: string
+        format: date-time
+      objectUrl:
+        type: string
+        format: url
