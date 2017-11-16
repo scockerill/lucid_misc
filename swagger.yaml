@@ -144,7 +144,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: id of building to reture
+          description: id of building to return
           required: true
           type: integer
           format: int64
