@@ -13,31 +13,31 @@
   "tags": [
     {
       "name": "auth",
-      "description": "Authenticate with the BuildingOS API"
+      "description": "Authentication"
     },
     {
       "name": "ROOT",
-      "description": "List all API endpoints available"
+      "description": "API Endpoints"
     },
     {
       "name": "buildings",
-      "description": "Access Building data"
+      "description": "Buildings"
     },
     {
       "name": "users",
-      "description": "Access User data"
+      "description": "Users"
     },
     {
       "name": "organizations",
-      "description": "Access Organization data"
+      "description": "Organizations"
     },
     {
       "name": "meters",
-      "description": "Meters capture all the data about a buildings resource usage. Meters have service types which define how we get the data if there is a service and gateways define how we get the data if there is a intermediate device."
+      "description": "Meters"
     },
     {
       "name": "notifications",
-      "description": "A notification in BuildingOS for online/offline/flatlined meters."
+      "description": "Notfications"
     }
   ],
   "schemes": [
@@ -94,7 +94,6 @@
           "200": {
             "description": "Authentication response",
             "schema": {
-              "title": "Authenticate",
               "$ref": "#/definitions/Auth"
             }
           }
@@ -206,7 +205,7 @@
         }
       }
     },
-    "/building/{id}": {
+    "/buildings/{id}": {
       "get": {
         "tags": [
           "buildings"
@@ -607,7 +606,6 @@
           "200": {
             "description": "Returns a single meters timestamped data values",
             "schema": {
-              "title": "Meter Data",
               "$ref": "#/definitions/MeterData"
             }
           }
@@ -661,6 +659,7 @@
   "definitions": {
     "Auth": {
       "type": "object",
+      "title": "Authentication",
       "properties": {
         "access_token": {
           "type": "string"
@@ -681,6 +680,7 @@
     },
     "Building": {
       "type": "object",
+      "title": "Building",
       "properties": {
         "id": {
           "type": "string"
@@ -831,6 +831,7 @@
     },
     "User": {
       "type": "object",
+      "title": "User",
       "properties": {
         "id": {
           "type": "string"
@@ -866,6 +867,7 @@
     },
     "Organization": {
       "type": "object",
+      "title": "Organization",
       "properties": {
         "id": {
           "type": "string"
@@ -932,6 +934,7 @@
     },
     "Meter": {
       "type": "object",
+      "title": "Meter",
       "properties": {
         "id": {
           "type": "integer"
@@ -1119,6 +1122,7 @@
     },
     "MeterData": {
       "type": "object",
+      "title": "MeterData",
       "properties": {
         "meta": {
           "type": "object",
@@ -1190,6 +1194,7 @@
     },
     "Notification": {
       "type": "object",
+      "title": "Notification",
       "properties": {
         "verb": {
           "type": "string"

@@ -1,0 +1,2035 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "BuildingOS API",
+        "description": "",
+        "version": ""
+    },
+    "host": "api.lucid.local",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    ""
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [],
+                "operationId": "_list"
+            }
+        },
+        "/assets/": {
+            "post": {
+                "tags": [
+                    "assets"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "schema": {
+                            "required": [
+                                "assetName",
+                                "vendorAssetId"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "category": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "rating": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "dateInstalled": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "jsonData": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "vendorAssetId": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "ratingUnit": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "assetName": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "model": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "dateWarrantyExpiry": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "unitPrice": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "quantity": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "manufacturer": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "assets_create"
+            }
+        },
+        "/benchmarking/bpd/": {
+            "get": {
+                "description": "Return Building Performance Database information for the request.",
+                "parameters": [],
+                "tags": [
+                    "benchmarking"
+                ],
+                "summary": "Return Building Performance Database information for the request.",
+                "operationId": "benchmarking_bpd_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/benchmarking/target-finder/": {
+            "get": {
+                "description": "Return EnergyStar target-finder data",
+                "parameters": [],
+                "tags": [
+                    "benchmarking"
+                ],
+                "summary": "Return EnergyStar target-finder data",
+                "operationId": "benchmarking_target-finder_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/budgets/": {
+            "get": {
+                "description": "API list of budgets",
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "tags": [
+                    "budgets"
+                ],
+                "summary": "API list of budgets",
+                "operationId": "budgets_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/budgets/card/": {
+            "get": {
+                "description": "API Budget Card",
+                "parameters": [],
+                "tags": [
+                    "budgets"
+                ],
+                "summary": "API Budget Card",
+                "operationId": "budgets_card_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/budgets/resource/entry/{id}/": {
+            "get": {
+                "description": "API single budget entry",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "budgets"
+                ],
+                "summary": "API single budget entry",
+                "operationId": "budgets_resource_entry_read",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/budgets/resource/{id}/": {
+            "get": {
+                "description": "API single budget resource",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "budgets"
+                ],
+                "summary": "API single budget resource",
+                "operationId": "budgets_resource_read",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/budgets/{id}/": {
+            "get": {
+                "description": "API single budget",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "budgets"
+                ],
+                "summary": "API single budget",
+                "operationId": "budgets_read",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/building-custom-types/": {
+            "get": {
+                "tags": [
+                    "building-custom-types"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "building-custom-types_list"
+            }
+        },
+        "/buildings/": {
+            "get": {
+                "tags": [
+                    "buildings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "buildings_list"
+            },
+            "post": {
+                "tags": [
+                    "buildings"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "schema": {
+                            "required": [
+                                "organization",
+                                "name"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "description": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "countryCode": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "area": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "longitude": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "geocoded": {
+                                    "type": "boolean",
+                                    "description": ""
+                                },
+                                "latitude": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "vendorBuildingId": {
+                                    "type": "string",
+                                    "description": "Vendor Building Id represents the unique identifier which links a building from a third party system integration to a BuildingOS building."
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "postalCode": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "organization": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "buildingType": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "buildings_create"
+            }
+        },
+        "/buildings/{id}/": {
+            "get": {
+                "tags": [
+                    "buildings"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "buildings_read"
+            }
+        },
+        "/buildings/{id}/data/": {
+            "get": {
+                "description": "Returns data summation of all whole meters under a building",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "buildings"
+                ],
+                "summary": "Returns data summation of all whole meters under a building",
+                "operationId": "buildings_data_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/definitions/": {
+            "get": {
+                "tags": [
+                    "definitions"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [],
+                "operationId": "definitions_list"
+            }
+        },
+        "/definitions/building-type/": {
+            "get": {
+                "tags": [
+                    "definitions"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "definitions_building-type_list"
+            }
+        },
+        "/definitions/validation/": {
+            "get": {
+                "tags": [
+                    "definitions"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "definitions_validation_list"
+            }
+        },
+        "/definitions/{enum}/": {
+            "get": {
+                "tags": [
+                    "definitions"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "enum",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "definitions_read"
+            }
+        },
+        "/gateways/": {
+            "get": {
+                "tags": [
+                    "gateways"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "gateways_list"
+            }
+        },
+        "/gateways/{id}/": {
+            "get": {
+                "tags": [
+                    "gateways"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "gateways_read"
+            }
+        },
+        "/gateways/{id}/data/": {
+            "post": {
+                "description": "Post data for meters or utility accounts in gateway to BuildingOS",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "gateways"
+                ],
+                "summary": "Post data for meters or utility accounts in gateway to BuildingOS",
+                "operationId": "gateways_data_create",
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/insights/": {
+            "get": {
+                "tags": [
+                    "insights"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "insights_list"
+            }
+        },
+        "/me/": {
+            "get": {
+                "tags": [
+                    "me"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [],
+                "operationId": "me_list"
+            }
+        },
+        "/meters/": {
+            "get": {
+                "tags": [
+                    "meters"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "meters_list"
+            },
+            "post": {
+                "tags": [
+                    "meters"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "schema": {
+                            "required": [
+                                "displayName",
+                                "scope",
+                                "building",
+                                "status",
+                                "resourceType",
+                                "readingType",
+                                "sourceUnit",
+                                "storageUnit",
+                                "displayUnit",
+                                "defaultTimescale",
+                                "gateway",
+                                "flatlineThreshold"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "building": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "status": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "storageUnit": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "displayUnit": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "displayName": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "sourceUnit": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "resourceType": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "vendorMeterId": {
+                                    "type": "string",
+                                    "description": "Vendor Unique Id represents the unique identifier which links a meter from a third party system integration to a BuildingOS meter."
+                                },
+                                "defaultTimescale": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "flatlineThreshold": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "scope": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "gateway": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "readingType": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "meters_create"
+            }
+        },
+        "/meters/{uuid}/": {
+            "get": {
+                "tags": [
+                    "meters"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "uuid",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "meters_read"
+            }
+        },
+        "/meters/{uuid}/data/": {
+            "get": {
+                "description": "Supported GET params: (all optional)\nstart      - local timestamp in ISO format\nend        - local timestamp in ISO format\norder      - asc/desc\nresolution - live/quarterhour/hour/day/month\ninclude    - used to include various reading details\ncost - show cost for the reading",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "uuid",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "meters"
+                ],
+                "summary": "Supported GET params: (all optional)",
+                "operationId": "meters_data_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/notifications/": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "notifications_list"
+            }
+        },
+        "/organizations/": {
+            "get": {
+                "tags": [
+                    "organizations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "organizations_list"
+            }
+        },
+        "/organizations/{id}/": {
+            "get": {
+                "tags": [
+                    "organizations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "organizations_read"
+            }
+        },
+        "/organizations/{id}/comparisons/": {
+            "get": {
+                "description": "Returns top consuming buildings over the past year\nin an organization.  Right now, just return top 10\nbuildings in electricity consumption (by whole building)",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "organizations"
+                ],
+                "summary": "Returns top consuming buildings over the past year",
+                "operationId": "organizations_comparisons_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/organizations/{id}/data/": {
+            "get": {
+                "description": "Returns data summation of all whole meters under an organization",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "organizations"
+                ],
+                "summary": "Returns data summation of all whole meters under an organization",
+                "operationId": "organizations_data_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/organizations/{id}/settings/": {
+            "get": {
+                "tags": [
+                    "organizations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "organizations_settings_list"
+            }
+        },
+        "/reports/": {
+            "get": {
+                "tags": [
+                    "reports"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "reports_list"
+            }
+        },
+        "/reports/images/{id}{var}/": {
+            "get": {
+                "tags": [
+                    "reports"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "var",
+                        "in": "path"
+                    },
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "reports_images_read"
+            }
+        },
+        "/reports/{id}/": {
+            "get": {
+                "tags": [
+                    "reports"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "reports_read"
+            },
+            "put": {
+                "tags": [
+                    "reports"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "required": [
+                                "latitude",
+                                "longitude",
+                                "zoom"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "latitude": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "zoom": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "longitude": {
+                                    "type": "number",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "reports_update"
+            },
+            "patch": {
+                "tags": [
+                    "reports"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "latitude": {
+                                    "type": "number",
+                                    "description": ""
+                                },
+                                "zoom": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "longitude": {
+                                    "type": "number",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "reports_partial_update"
+            }
+        },
+        "/storyboards/": {
+            "get": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "storyboards_list"
+            }
+        },
+        "/storyboards/chapter/": {
+            "post": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "schema": {
+                            "required": [
+                                "title",
+                                "contentId",
+                                "contentType",
+                                "storyboard",
+                                "icon"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "storyboard": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "contentType": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "contentId": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "position": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "showTitle": {
+                                    "type": "boolean",
+                                    "description": ""
+                                },
+                                "icon": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_chapter_create"
+            }
+        },
+        "/storyboards/chapter/{id}/": {
+            "get": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "storyboards_chapter_read"
+            },
+            "put": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "required": [
+                                "title",
+                                "contentId",
+                                "contentType",
+                                "storyboard",
+                                "icon"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "storyboard": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "contentType": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "contentId": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "position": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "showTitle": {
+                                    "type": "boolean",
+                                    "description": ""
+                                },
+                                "icon": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_chapter_update"
+            },
+            "patch": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "storyboard": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "contentType": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "contentId": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "position": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "showTitle": {
+                                    "type": "boolean",
+                                    "description": ""
+                                },
+                                "icon": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_chapter_partial_update"
+            },
+            "delete": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "storyboards_chapter_delete"
+            }
+        },
+        "/storyboards/logo/{id}/": {
+            "get": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "storyboards_logo_read"
+            },
+            "put": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "required": [
+                                "originalImage"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "originalImage": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_logo_update"
+            },
+            "patch": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "originalImage": {
+                                    "type": "string",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_logo_partial_update"
+            },
+            "delete": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "storyboards_logo_delete"
+            }
+        },
+        "/storyboards/{id}/": {
+            "get": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "storyboards_read"
+            },
+            "put": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "required": [
+                                "displayName",
+                                "logo",
+                                "autoplayStart"
+                            ],
+                            "type": "object",
+                            "properties": {
+                                "autoplayStart": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "logo": {
+                                    "type": "object",
+                                    "description": ""
+                                },
+                                "configuration": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "displayName": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "autoplay": {
+                                    "type": "boolean",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_update"
+            },
+            "patch": {
+                "tags": [
+                    "storyboards"
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "autoplayStart": {
+                                    "type": "integer",
+                                    "description": ""
+                                },
+                                "logo": {
+                                    "type": "object",
+                                    "description": ""
+                                },
+                                "configuration": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "displayName": {
+                                    "type": "string",
+                                    "description": ""
+                                },
+                                "autoplay": {
+                                    "type": "boolean",
+                                    "description": ""
+                                }
+                            }
+                        },
+                        "name": "data",
+                        "in": "body"
+                    }
+                ],
+                "operationId": "storyboards_partial_update"
+            }
+        },
+        "/storyboards/{id}/positions/": {
+            "post": {
+                "tags": [
+                    "storyboards"
+                ],
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "storyboards_positions_create"
+            }
+        },
+        "/tenants/{id}/": {
+            "get": {
+                "description": "API view to retrieve a info on a single Tenant, for the Tenant Info Card on\nthe Tenant Dashboard",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "tenants"
+                ],
+                "summary": "API view to retrieve a info on a single Tenant, for the Tenant Info Card on",
+                "operationId": "tenants_read",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/tenants/{id}/comparisons/": {
+            "get": {
+                "description": "Returns top consuming spaces over the past year in a space.  Right now, just\nreturns top 10 spaces in each type (by whole space, e.g. SpaceVirtualPoint)",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "tenants"
+                ],
+                "summary": "Returns top consuming spaces over the past year in a space.  Right now, just",
+                "operationId": "tenants_comparisons_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/tenants/{id}/consumption-cost/": {
+            "get": {
+                "description": "This is the endpoint used by the TenantConsumptionCost card",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "tenants"
+                ],
+                "summary": "This is the endpoint used by the TenantConsumptionCost card",
+                "operationId": "tenants_consumption-cost_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/tenants/{id}/data/": {
+            "get": {
+                "description": "Returns data summary of all Tenant Virtual Points for a given tenant\n(specified by pk)",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "tenants"
+                ],
+                "summary": "Returns data summary of all Tenant Virtual Points for a given tenant",
+                "operationId": "tenants_data_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/users/": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "users_list"
+            }
+        },
+        "/users/{id}/": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A unique integer value identifying this user.",
+                        "required": true,
+                        "type": "integer",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "users_read"
+            }
+        },
+        "/utility-accounts/": {
+            "get": {
+                "tags": [
+                    "utility-accounts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "A page number within the paginated result set.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "description": "Number of results to return per page.",
+                        "required": false,
+                        "type": "integer",
+                        "name": "perPage",
+                        "in": "query"
+                    }
+                ],
+                "operationId": "utility-accounts_list"
+            }
+        },
+        "/utility-accounts/{uuid}/": {
+            "get": {
+                "tags": [
+                    "utility-accounts"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "uuid",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "utility-accounts_read"
+            }
+        },
+        "/utility-accounts/{uuid}/bills/": {
+            "get": {
+                "description": "Supported GET params: (all optional)\nstart      - local timestamp in ISO format\nend        - local timestamp in ISO format\norder      - asc/desc",
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "uuid",
+                        "in": "path"
+                    }
+                ],
+                "tags": [
+                    "utility-accounts"
+                ],
+                "summary": "Supported GET params: (all optional)",
+                "operationId": "utility-accounts_bills_list",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/validations/{id}/": {
+            "get": {
+                "tags": [
+                    "validations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "validations_read"
+            },
+            "put": {
+                "tags": [
+                    "validations"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "validations_update"
+            }
+        },
+        "/workorders/": {
+            "post": {
+                "description": "Post data for Work Order Tasks via Work Order Gateway to BuildingOS\n\nUnique Fields:\nA Work Order Task is unique based on gateway, taskId, and workOrderId.\n\nRequired Fields (all others are optional):\nTop Level:\n* gateway\n* workOrders: Array of Work Order Tasks\n\nWork Order Task Level:\n* taskId\n* taskProblemType\n* buildingId\n* buildingName\n\nWork Order Cost Level:\n* costId\n* date\n* type\n* cost",
+                "parameters": [],
+                "tags": [
+                    "workorders"
+                ],
+                "summary": "Post data for Work Order Tasks via Work Order Gateway to BuildingOS",
+                "operationId": "workorders_create",
+                "responses": {
+                    "201": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/{context}s/{id}/image/": {
+            "get": {
+                "tags": [
+                    "image"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "context",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "image_list"
+            }
+        },
+        "/{context}s/{id}/image{var}/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                },
+                "parameters": [
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "var",
+                        "in": "path"
+                    },
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "id",
+                        "in": "path"
+                    },
+                    {
+                        "description": "",
+                        "required": true,
+                        "type": "string",
+                        "name": "context",
+                        "in": "path"
+                    }
+                ],
+                "operationId": "read"
+            }
+        }
+    },
+    "securityDefinitions": {
+        "basic": {
+            "type": "basic"
+        }
+    }
+}
