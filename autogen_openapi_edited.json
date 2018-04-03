@@ -22,7 +22,7 @@
         "summary": "List all available API endpoint URLs",
         "responses": {
           "200": {
-            "description": "A list of available API endpoints",
+            "description": "Returns a list of available API endpoints",
             "schema": {
               "$ref": "#/definitions/Endpoints"
             }
@@ -466,7 +466,7 @@
         "summary": "List meters that the current user has access to",
         "responses": {
           "200": {
-            "description": "A list of meters",
+            "description": "Returns a list of meters",
             "schema": {
               "type": "object",
               "title": "Meters",
@@ -784,7 +784,7 @@
         "description": "A user can belong to one or many organizations (usually just their primary organization and the demo organization). This is a collection of all the organizations for which the current user has access.",
         "responses": {
           "200": {
-            "description": "A list of organizations",
+            "description": "Returns a list of organizations",
             "schema": {
               "type": "object",
               "title": "Organizations",

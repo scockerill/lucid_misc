@@ -21,7 +21,7 @@ paths:
       summary: List all available API endpoint URLs
       responses:
         '200':
-          description: A list of available API endpoints
+          description: Returns a list of available API endpoints
           schema:
             $ref: '#/definitions/Endpoints'
       operationId: endpoints_list
@@ -295,7 +295,7 @@ paths:
       summary: List meters that the current user has access to
       responses:
         '200':
-          description: A list of meters
+          description: Returns a list of meters
           schema:
             type: object
             title: Meters
@@ -501,7 +501,7 @@ paths:
         all the organizations for which the current user has access.
       responses:
         '200':
-          description: A list of organizations
+          description: Returns a list of organizations
           schema:
             type: object
             title: Organizations
