@@ -1,0 +1,1712 @@
+swagger: '2.0'
+info:
+  title: BuildingOS API
+  description: |-
+    We anticipate our API will be used by the following people:
+      - Developers to build apps used by BuildingOS customers
+      - Customes who want access to their own data
+      - Students who are part of school energy competitions
+  version: 1.0.0
+  termsOfService: 'https://lucidconnects.com/terms/terms-developer'
+  contact:
+    email: support@luciddg.com
+host: api-sandbox.qa.buildingos.com
+schemes:
+  - https
+paths:
+  /:
+    get:
+      tags:
+        - index
+      summary: List all available API endpoint URLs
+      responses:
+        '200':
+          description: A list of available API endpoints
+          schema:
+            $ref: '#/definitions/Endpoints'
+      operationId: endpoints_list
+  /buildings/:
+    get:
+      tags:
+        - buildings
+      summary: List buildings that the current user has access to
+      responses:
+        '200':
+          description: Returns a list of buildings
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      buildingType:
+                        type: string
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Building'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: buildings_list
+    post:
+      tags:
+        - buildings
+      summary: Create a building
+      consumes:
+        - application/json
+      responses:
+        '201':
+          description: Returns the created building
+          schema:
+            allOf:
+             - $ref: '#/definitions/Building'
+             - properties:
+                meta:
+                  type: object
+                  properties:
+                    definitions:
+                      type: object
+                      properties:
+                        buildingType:
+                          type: string
+                          format: url
+      parameters:
+        - schema:
+            required:
+              - organization
+              - name
+            type: object
+            properties:
+              description:
+                type: string
+                description: ''
+              countryCode:
+                type: string
+                description: ''
+              area:
+                type: number
+                description: ''
+              longitude:
+                type: number
+                description: ''
+              geocoded:
+                type: boolean
+                description: ''
+              latitude:
+                type: number
+                description: ''
+              vendorBuildingId:
+                type: string
+                description: Vendor Building Id represents the unique identifier which links a building from a third party system integration to a BuildingOS building.
+              address:
+                type: string
+                description: ''
+              postalCode:
+                type: string
+                description: ''
+              organization:
+                type: integer
+                description: ''
+              buildingType:
+                type: string
+                description: ''
+              name:
+                type: string
+                description: ''
+          name: body
+          in: body
+      operationId: buildings_create
+  '/buildings/{id}/':
+    get:
+      tags:
+        - buildings
+      summary: Get a single building
+      responses:
+        '200':
+          description: Returns a single building object
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      buildingType:
+                        type: string
+              data:
+                $ref: '#/definitions/Building'
+      parameters:
+        - $ref: '#/parameters/id'
+      operationId: buildings_read
+  '/buildings/{id}/data/':
+    get:
+      parameters:
+        - $ref: '#/parameters/id'
+      tags:
+        - buildings
+      summary: Get data summation of all whole meters under a building
+      operationId: buildings_data_list
+      responses:
+        '200':
+          description: Returns a single building's data
+          schema:
+            $ref: '#/definitions/BuildingData'
+  /definitions/:
+    get:
+      tags:
+        - definitions
+      summary: List BuildingOS enumeration definition URLs
+      responses:
+        '200':
+          description: Returns the list of BuildingOS definition URLs
+          schema:
+            $ref: '#/definitions/Definitions'
+      operationId: definitions_list
+  /definitions/building-type/:
+    get:
+      tags:
+        - definitions
+      summary: List BuildingOS building type definitions
+      responses:
+        '200':
+          description: Returns the list of BuildingOS building type definitions
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/DefinitionsBuildingType'
+              links:
+                $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: definitions_building-type_list
+  '/definitions/{enum}/':
+    get:
+      tags:
+        - definitions
+      summary: List possible values for the the given enum
+      responses:
+        '200':
+          description: Returns the list of possible values for the the given enum
+          schema:
+            $ref: '#/definitions/DefinitionsEnum'
+      parameters:
+        - $ref: '#/parameters/enum'
+      operationId: definitions_read
+  /gateways/:
+    get:
+      tags:
+        - gateways
+      summary: List gateways that the current user has access to
+      responses:
+        '200':
+          description: Returns a list of gateways
+          schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/Gateway'
+                  links:
+                    $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: gateways_list
+  '/gateways/{id}/':
+    get:
+      tags:
+        - gateways
+      summary: Get a single gateway
+      responses:
+        '200':
+          description: Returns a single gateway object
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  definition:
+                    type: object
+                    properties:
+                      empty: {}
+              data:
+                $ref: '#/definitions/Gateway'
+      parameters:
+        - $ref: '#/parameters/id'
+      operationId: gateways_read
+  '/gateways/{id}/data/':
+    post:
+      parameters:
+        - $ref: '#/parameters/id'
+        - in: body
+          name: body
+          description: Each key in the 'data' object is expected to be a meter or utility account 'uuid'.
+          schema:
+            $ref: '#/definitions/GatewayData'
+      tags:
+        - gateways
+      summary: Post data for meters or utility accounts in gateway to BuildingOS
+      operationId: gateways_data_create
+      responses:
+        '200':
+          description: Data accepted
+          schema:
+            type: object
+            properties:
+              data:
+                type: string
+  /me/:
+    get:
+      tags:
+        - me
+      summary: Get details on the current user
+      responses:
+        '200':
+          description: Returns the current user object
+          schema:
+            type: object
+            title: Current User
+            properties:
+              data:
+                $ref: '#/definitions/User'
+      operationId: me_list
+  /meters/:
+    get:
+      tags:
+        - meters
+      summary: List meters that the current user has access to
+      responses:
+        '200':
+          description: A list of meters
+          schema:
+            type: object
+            title: Meters
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      defaultTimescale:
+                        type: string
+                      displayUnit:
+                        type: string
+                      sourceUnit:
+                        type: string
+                      resourceType:
+                        type: string
+                      flatlineThreshold:
+                        type: string
+                      scope:
+                        type: string
+                      readingType:
+                        type: string
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Meter'
+              links:
+                $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: meters_list
+    post:
+      tags:
+        - meters
+      summary: Create a meter object
+      consumes:
+        - application/json
+      responses:
+        '201':
+          description: Returns the created meter
+          schema:
+            $ref: '#/definitions/Meter'
+      parameters:
+        - schema:
+            required:
+              - displayName
+              - scope
+              - building
+              - status
+              - resourceType
+              - readingType
+              - sourceUnit
+              - displayUnit
+              - defaultTimescale
+              - gateway
+              - flatlineThreshold
+            type: object
+            properties:
+              building:
+                type: string
+                description: ''
+              status:
+                type: string
+                description: ''
+              displayUnit:
+                type: string
+                description: ''
+              displayName:
+                type: string
+                description: ''
+              sourceUnit:
+                type: string
+                description: ''
+              resourceType:
+                type: string
+                description: ''
+              vendorMeterId:
+                type: string
+                description: Vendor Unique Id represents the unique identifier which links a meter from a third party system integration to a BuildingOS meter.
+              defaultTimescale:
+                type: string
+                description: ''
+              flatlineThreshold:
+                type: string
+                description: ''
+              scope:
+                type: string
+                description: ''
+              gateway:
+                type: string
+                description: ''
+              readingType:
+                type: string
+                description: ''
+          name: body
+          in: body
+      operationId: meters_create
+  '/meters/{uuid}/':
+    get:
+      tags:
+        - meters
+      summary: Get a single meter
+      responses:
+        '200':
+          description: Returns a single meter
+          schema:
+            type: object
+            title: Meter
+            properties:
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                      defaultTimescale:
+                        type: string
+                      displayUnit:
+                        type: string
+                      sourceUnit:
+                        type: string
+                      resourceType:
+                        type: string
+                      flatlineThreshold:
+                        type: string
+                      scope:
+                        type: string
+                      readingType:
+                        type: string
+              data:
+                $ref: '#/definitions/Meter'
+      parameters:
+        - $ref: '#/parameters/uuid'
+      operationId: meters_read
+  '/meters/{uuid}/data/':
+    get: 
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - $ref: '#/parameters/start'
+        - $ref: '#/parameters/end'
+        - $ref: '#/parameters/order'
+        - $ref: '#/parameters/resolution'
+        - $ref: '#/parameters/include'
+      tags:
+        - meters
+      summary: Get timestamped meter readings
+      operationId: meters_data_list
+      responses:
+        '200':
+          description: Returns a single meters timestamped data
+          schema:
+            $ref: '#/definitions/MeterData'
+  /notifications/:
+    get:
+      tags:
+        - notifications
+      summary: List notifications that the current user has access to
+      responses:
+        '200':
+          description: Returns a list of notification objects
+          schema:
+            type: object
+            title: Notifications
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      verb:
+                        type: string
+                        format: url
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Notification'
+              links:
+                $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: notifications_list
+  /organizations/:
+    get:
+      tags:
+        - organizations
+      summary: List organizations associated with the user
+      description: >-
+        A user can belong to one or many organizations (usually just their
+        primary organization and the demo organization). This is a collection of
+        all the organizations for which the current user has access.
+      responses:
+        '200':
+          description: A list of organizations
+          schema:
+            type: object
+            title: Organizations
+            properties:
+              totalCount:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/Organization'
+              links:
+                $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: organizations_list
+  '/organizations/{id}/':
+    get:
+      tags:
+        - organizations
+      summary: Get a single organization
+      responses:
+        '200':
+          description: Returns a single organization
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/definitions/Organization'
+      parameters:
+        - $ref: '#/parameters/id'
+      operationId: organizations_read
+  '/organizations/{id}/comparisons/':
+    get:
+      parameters:
+        - $ref: '#/parameters/id'
+      tags:
+        - organizations
+      summary: List top consuming buildings over the past year for an organization
+      operationId: organizations_comparisons_list
+      responses:
+        '200':
+          description: Returns top consuming buildings over the past year and their consumptions
+          schema: 
+            $ref: '#/definitions/OrganizationComparison'
+                      
+  '/organizations/{id}/data/':
+    get:
+      description: Returns data summation of all whole meters under an organization
+      parameters:
+        - $ref: '#/parameters/id'
+      tags:
+        - organizations
+      summary: Get data summation of all whole meters under an organization
+      operationId: organizations_data_list
+      responses:
+        '200':
+          description: Returns data summation of all whole meters under an organization
+          schema:
+            $ref: '#/definitions/OrganizationData'
+  '/organizations/{id}/settings/':
+    get:
+      tags:
+        - organizations
+      summary: Get settings for an organization
+      responses:
+        '200':
+          description: Organization settings
+          schema:
+            $ref: '#/definitions/OrganizationSettings'
+      parameters:
+        - $ref: '#/parameters/id'
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: organizations_settings_list
+  /users/:
+    get:
+      tags:
+        - users
+      summary: List users who have accounts in the current user's organizations
+      responses:
+        '200':
+          description: Returns a list of users
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/User'
+              links:
+                $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: users_list
+  '/users/{id}/':
+    get:
+      tags:
+        - users
+      summary: Get a single user
+      responses:
+        '200':
+          description: Returns a single user
+          schema:
+            type: object 
+            properties:
+              data:
+                $ref: '#/definitions/User'
+      parameters:
+        - $ref: '#/parameters/id'
+      operationId: users_read
+  /utility-accounts/:
+    get:
+      tags:
+        - utility-accounts
+      summary: List utility accounts accessible by the current user
+      responses:
+        '200':
+          description: Returns list of utility accounts
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        format: url
+                      defaultTimescale:
+                        type: string
+                        format: url
+                      displayUnit:
+                        type: string
+                        format: url
+                      sourceUnit:
+                        type: string
+                        format: url
+                      resourceType:
+                        type: string
+                        format: url
+                      flatlineThreshold:
+                        type: string
+                        format: url
+                      scope:
+                        type: string
+                        format: url
+                      readingType:
+                        type: string
+                        format: url
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/UtilityAccount'
+              links:
+                $ref: '#/definitions/Links'
+      parameters:
+        - $ref: '#/parameters/page'
+        - $ref: '#/parameters/perPage'
+      operationId: utility-accounts_list
+  '/utility-accounts/{uuid}/':
+    get:
+      tags:
+        - utility-accounts
+      summary: Get a single utility account
+      responses:
+        '200':
+          description: Returns a single utility account
+          schema:
+            type: object
+            properties:
+              totalCount:
+                type: integer
+              meta:
+                type: object
+                properties:
+                  definitions:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        format: url
+                      defaultTimescale:
+                        type: string
+                        format: url
+                      displayUnit:
+                        type: string
+                        format: url
+                      sourceUnit:
+                        type: string
+                        format: url
+                      resourceType:
+                        type: string
+                        format: url
+                      flatlineThreshold:
+                        type: string
+                        format: url
+                      scope:
+                        type: string
+                        format: url
+                      readingType:
+                        type: string
+                        format: url
+              data:
+                $ref: '#/definitions/UtilityAccount'
+      parameters:
+        - description: ''
+          required: true
+          type: string
+          name: uuid
+          in: path
+      operationId: utility-accounts_read
+  '/utility-accounts/{uuid}/bills/':
+    get:
+      parameters:
+        - $ref: '#/parameters/uuid'
+        - $ref: '#/parameters/start'
+        - $ref: '#/parameters/end'
+        - $ref: '#/parameters/order'
+      tags:
+        - utility-accounts
+      summary: Get utility account bills
+      operationId: utility-accounts_bills_list
+      responses:
+        '200':
+          description: Return bills for a utility account
+          schema:
+            type: object
+            properties:
+              meta:
+                type: object
+                properties:
+                  building:
+                    type: string
+                    format: url
+                  units:
+                    type: object
+                    properties:
+                      cost:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          displayName:
+                            type: string
+                          symbol:
+                            type: string
+                      consumption:
+                        type: object
+                        properties:
+                          displayName:
+                            type: string
+                          id:
+                            type: integer
+                            format: int64
+                          shortName:
+                            type: string
+                  definitions:
+                    type: object
+                    properties:
+                      unitsCost:
+                        type: string
+                        format: url
+                      unitsConsumption:
+                        type: string
+                        format: url
+                      unitsDemand:
+                        type: string
+                        format: url
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/UtilityAccountBills'
+          
+definitions:
+  Endpoints:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          buildings:
+            type: string
+          storyboards:
+            type: string
+          users:
+            type: string
+          notifications:
+            type: string
+          meters:
+            type: string
+          insights:
+            type: string
+          me:
+            type: string
+          organizations:
+            type: string
+          assets:
+            type: string
+          organizationUrl:
+            type: string
+          reports:
+            type: string
+          gateways:
+            type: string
+          definitions:
+            type: string
+          utilityAccounts:
+            type: string
+          budgets:
+            type: string
+  Building:
+      type: object
+      title: Building
+      properties:
+        id:
+          type: string
+        uuid:
+          type: string
+        organization:
+          type: string
+        vendorBuildingId:
+          type: string
+        object:
+          type: string
+        name:
+          type: string
+        shortName:
+          type: string
+        description:
+          type: string
+        address:
+          type: string
+        postalCode:
+          type: integer
+        countryCode:
+          type: string
+        area:
+          type: number
+        occupancy:
+          type: string
+        occupiedArea:
+          type: string
+        percentVacancy:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
+        image:
+          type: string
+        longitude:
+          type: number
+        latitude:
+          type: number
+        url:
+          type: string
+        data:
+          type: string
+        buildingType:
+          type: object
+          properties:
+            displayName:
+              type: string
+            id:
+              type: integer
+            slug:
+              type: string
+        buildingGroups:
+          type: object
+          additionalProperties:
+            type: string
+        location:
+          type: object
+          properties:
+            lat:
+              type: number
+            lon:
+              type: number
+        areaUnit:
+          type: object
+          properties:
+            id:
+              type: integer
+            displayName:
+              type: string
+            shortName:
+              type: string
+        meters:
+          type: array
+          items:
+            properties:
+              displayName:
+                type: string
+              name:
+                type: string
+              url:
+                type: string
+        utilityAccounts:
+          type: array
+          items:
+            properties:
+              displayName:
+                type: string
+              name:
+                type: string
+              url:
+                type: string
+  BuildingData:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          buildingCounts:
+            type: object
+            additionalProperties:
+              type: integer
+          period:
+            type: object
+            properties:
+              displayName:
+                type: string
+              id:
+                type: integer
+                format: int64
+              slug:
+                type: string
+          titles:
+            type: object
+            additionalProperties:
+              type: string
+          units:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                id:
+                  type: integer
+                  format: int64
+                shortName:
+                  type: string
+          definitions:
+            type: object
+            properties:
+              resolution:
+                type: string
+          resolution:
+            type: object
+            properties:
+              displayName:
+                type: string
+              id:
+                type: integer
+                format: int64
+              slug:
+               type: string
+      data:
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            properties:
+              date:
+                type: string
+                format: date
+              value:
+                type: number
+  Definitions:
+    type: object
+    properties:
+      meta: {}
+      data:
+        properties:
+          status:
+            type: string
+          defaultTimescale:
+            type: string
+          displayUnit:
+            type: string
+          flatlineThreshold:
+            type: string
+          resourceType:
+            type: string
+          resolution:
+            type: string
+          sourceUnit:
+            type: string
+          verb:
+            type: string
+          scope:
+            type: string
+          buildingType:
+            type: string
+          readingType:
+            type: string
+  DefinitionsEnum:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          type: object
+          additionalProperties:
+            type: string
+  DefinitionsBuildingType:
+    type: object
+    properties:
+      displayName:
+        type: string
+      id:
+        type: integer
+        format: int64
+      slug:
+        type: string
+      pluralize:
+        type: string
+              
+  User:
+    type: object
+    title: User
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      jobFunction:
+        type: string
+      organizations:
+        type: array
+        items:
+          type: string
+      url:
+        type: string
+      avatar:
+        type: string
+      createdAt:
+        type: string
+      lastLoginAt:
+        type: string
+  Organization:
+    type: object
+    title: Organization
+    properties:
+      id:
+        type: string
+      object:
+        type: string
+      url:
+        type: string
+      name:
+        type: string
+      shortName:
+        type: string
+      data:
+        type: string
+      updatedAt:
+        type: string
+        format: date-time
+      image:
+        type: string
+        format: uri
+      settings:
+        type: string
+        format: uri
+      areaUnit:
+        type: object
+        properties:
+          id:
+            type: integer
+          displayName:
+            type: string
+          shortName:
+            type: string
+      buildings:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            displayName:
+              type: string
+            url:
+              type: string
+  OrganizationData:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          units:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                id:
+                  type: integer
+                  format: int64
+                shortName:
+                  type: string
+          definitions:
+            type: object
+            properties:
+              resolution:
+                type: string
+                format: url
+          buildingCounts:
+            type: object
+            additionalProperties:
+              type: integer
+          resolution:
+            type: object
+            properties:
+              displayName:
+                type: string
+              id:
+                type: integer
+                format: int64
+              slug:
+                type: string
+          period:
+            type: object
+            properties:
+              displayName:
+                type: string
+              id:
+                type: integer
+                format: int64
+              slug:
+                type: string
+      data:
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              value:
+                type: number
+  OrganizationComparison:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          units:
+            type: object
+            additionalProperties:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                id:
+                  type: integer
+                  format: int64
+                shortName:
+                  type: string
+          definitions:
+            type: object
+            properties:
+              resolution:
+                type: string
+                format: url
+          resolution:
+            type: object
+            properties:
+              displayName:
+                type: string
+              id:
+                type: integer
+                format: int64
+              slug:
+                type: string
+          period:
+            type: object
+            properties:
+              displayName:
+                type: string
+              id:
+                type: integer
+                format: int64
+              slug:
+                type: string
+      data:
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: number
+  OrganizationSettings:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          empty: {}
+      data:
+        type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+          mapLatitude:
+            type: number
+          mapLongitude:
+            type: number
+          mapZoom:
+            type: number
+  Meter:
+    type: object
+    title: Meter
+    properties:
+      id:
+        type: integer
+      uuid:
+        type: string
+      url:
+        type: string
+      name:
+        type: string
+      displayName:
+        type: string
+      vendorMeterId:
+        type: string
+      building:
+        type: string
+      firstReadingAt:
+        type: string
+        format: date-time
+      lastestReadingAt:
+        type: string
+        format: date-time
+      data:
+        type: string
+      scope:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      status:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: string
+      resourceType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      readingType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      sourceUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      storageUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      displayUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      defaultTimestamp:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      integration:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      gateway:
+        type: object
+        properties:
+          uri:
+            type: string
+          url:
+            type: string
+      flatlineThreshold:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      currentRate:
+        type: object
+        properties:
+          value:
+            type: number
+  MeterData:
+    type: object
+    title: MeterData
+    properties:
+      meta:
+        type: object
+        properties:
+          units:
+            type: object
+            properties:
+              value:
+                type: object
+                properties:
+                  displayName:
+                    type: string
+                  id:
+                    type: integer
+                  shortName:
+                    type: string
+          definitions:
+            type: object
+            properties:
+              unitsCost:
+                type: string
+              resolution:
+                type: string
+              unitsValue:
+                type: string
+          resolution:
+            type: object
+            properties:
+              displayName:
+                type: string
+              slug:
+                type: string
+              id:
+                type: integer
+      data:
+        type: array
+        items:
+          properties:
+            value:
+              type: number
+            localtime:
+              type: string
+              format: date-time
+      links:
+        $ref: '#/definitions/Links'
+  Notification:
+    type: object
+    title: Notification
+    properties:
+      verb:
+        type: string
+      occurredAt:
+        type: string
+        format: date-time
+      recoveredAt:
+        type: string
+        format: date-time
+      objectUrl:
+        type: string
+        format: url
+  Gateway:
+    type: object
+    title: Gateway
+    properties:
+      id:
+        type: integer
+      object:
+        type: string
+      organization:
+        type: string
+        format: url
+      uri:
+        type: string
+      name:
+        type: string
+      integration:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      url:
+        type: string
+        format: url
+      meters:
+        type: array
+        items:
+          properties:
+            displayName:
+              type: string
+            name:
+              type: string
+            url:
+              type: string
+              format: url
+      utilityAccounts:
+        type: array
+        items:
+          properties:
+            displayName:
+              type: string
+            name:
+              type: string
+            url:
+              type: string
+              format: url
+  GatewayData:
+    type: object
+    properties:
+      meta:
+        type: object
+        properties:
+          naive_timestamp_utc:
+            type: boolean
+            default: true
+      data:
+        type: object
+        additionalProperties:
+          description: Each key must be a meter uuid
+          type: array
+          items:
+            type: array
+            items:
+             anyOf:
+              - type: string
+                format: date-time
+                description: timestamp of data point
+              - type: number
+                description: value of data point
+  UtilityAccount:
+    type: object
+    properties:
+      id:
+        type: integer
+      uuid:
+        type: string
+      url:
+        type: string
+      name:
+        type: string
+      displayName:
+        type: string
+      building:
+        type: string
+      firstReadingAt:
+        type: string
+        format: date-time
+      lastestReadingAt:
+        type: string
+        format: date-time
+      bills:
+        type: string
+        format: url
+      scope:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      status:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: string
+      resourceType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      readingType:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      sourceUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      storageUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      displayUnit:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      defaultTimestamp:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+          slug:
+            type: string
+      integration:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      gateway:
+        type: object
+        properties:
+          uri:
+            type: string
+          url:
+            type: string
+            format: url
+      flatlineThreshold:
+        type: object
+        properties:
+          displayName:
+            type: string
+          id:
+            type: integer
+      currentRate:
+        type: object
+        properties:
+          value:
+            type: number
+  UtilityAccountBills:
+    type: object
+    properties:
+      startDate:
+        type: string
+        format: date
+      endDate:
+        type: string
+        format: date
+      consumption:
+        type: number
+      billId:
+        type: string
+      cost:
+        type: number
+      demand: 
+        type: number
+      meterId:
+        type: string
+    
+  Links:
+    type: object
+    properties:
+      previous:
+        type: string
+      next:
+        type: string
+      
+parameters:
+  id:
+    name: id
+    in: path
+    description: The id of the object to return.
+    required: true
+    type: integer
+    format: int64
+  page:
+    name: page
+    in: query
+    description: A page number within the paginated result set.
+    type: integer
+  perPage:
+    name: perPage
+    in: query
+    description: Number of results to return per page.
+    type: integer
+  authorization:
+    name: authorization
+    in: header
+    description: Bearer {access_token} (where {access_token} is from /o/token response)
+    required: true
+    type: string
+  uuid:
+    name: uuid
+    in: path
+    description: uuid of meter to return
+    required: true
+    type: string
+  enum:
+    name: enum
+    in: path
+    description: enum of definition to return
+    required: true
+    type: string
+  start:
+    name: start
+    in: query
+    description: local timestamp in ISO format
+    type: string
+    format: date-time
+  end:
+    name: end
+    in: query
+    description: local timestamp in ISO format
+    type: string
+    format: date-time
+  order:
+    name: order
+    in: query
+    description: sort order
+    type: string
+    enum: [asc, desc]
+  resolution:
+    name: resolution
+    in: query
+    description: live/quarterhour/hour/day/month
+    type: string
+    enum: [live, quarterhour, hour, day, month]
+  include:
+    name: include
+    in: query
+    description: used to include various reading details
+    type: string
+    enum: [cost, consumption]
+      
+securityDefinitions:
+  OAuth2:
+    type: oauth2
+    flow: application
+    tokenUrl: http://api.lucid.local/o/token/
+    scopes:
+      read: Grant read access to your data
+      write: Grant write access to your data
