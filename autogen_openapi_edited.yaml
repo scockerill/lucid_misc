@@ -1706,7 +1706,7 @@ securityDefinitions:
   OAuth2:
     type: oauth2
     flow: application
-    tokenUrl: http://api.lucid.local/o/token/
+    tokenUrl: https://api-sandbox.qa.buildingos.com/o/token/
     scopes:
       read: Grant read access to your data
       write: Grant write access to your data
